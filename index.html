@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LezzetKutusu - Yemek Tarifleri</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff8f2;
+  color: #29231f;
+}
+
+header {
+  background: white;
+  padding: 18px 30px;
+  box-shadow: 0 2px 10px #00000010;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e85d04;
+}
+
+.logo span {
+  background: #e85d04;
+  color: white;
+  padding: 8px;
+  border-radius: 12px;
+  margin-right: 8px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 20px;
+}
+
+.hero {
+  padding: 70px 20px;
+  background: linear-gradient(135deg,#fff0df,#ffd7ad);
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero h1 {
+  font-size: 55px;
+  margin-bottom: 20px;
+}
+
+.hero h1 span {
+  color: #e85d04;
+}
+
+.hero p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #665d57;
+  margin-bottom: 25px;
+}
+
+.search {
+  display: flex;
+  background: white;
+  padding: 6px;
+  border-radius: 14px;
+  max-width: 550px;
+}
+
+.search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 14px;
+  font-size: 16px;
+}
+
+.search button {
+  background: #e85d04;
+  color: white;
+  border: none;
+  padding: 0 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.hero-food {
+  font-size: 150px;
+  background: #e85d04;
+  width: 350px;
+  height: 300px;
+  border-radius: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 60px 20px;
+}
+
+h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.category {
+  padding: 11px 18px;
+  border-radius: 30px;
+  border: 1px solid #eaded4;
+  background: white;
+  cursor: pointer;
+}
+
+.category:hover,
+.category.active {
+  background: #e85d04;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  transition: .2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px #00000015;
+}
+
+.food {
+  height: 190px;
+  background: linear-gradient(135deg,#fff0df,#ffd19d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 90px;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #777;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.info {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.info span {
+  background: #fff0e4;
+  color: #d94f00;
+  padding: 7px 9px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  background: #29231f;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #e85d04;
+}
+
+footer {
+  background: #29231f;
+  color: white;
+  text-align: center;
+  padding: 35px;
+  margin-top: 40px;
+}
+
+@media(max-width:800px) {
+  .hero-inner {
+    flex-direction: column;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .hero-food {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width:550px) {
+  nav {
+    display: none;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+
+    <div class="logo">
+      <span>🍴</span>
+      LezzetKutusu
+    </div>
+
+    <nav>
+      <a href="#">Ana Sayfa</a>
+      <a href="#tarifler">Tarifler</a>
+      <a href="#kategoriler">Kategoriler</a>
+    </nav>
+
+  </div>
+</header>
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <div class="hero-text">
+
+      <h1>
+        Bugün ne
+        <span>pişirsek?</span> 🍳
+      </h1>
+
+      <p>
+        Lezzetli yemek tariflerini keşfet,
+        kalorilerini öğren ve mutfağında
+        harika yemekler hazırla.
+      </p>
+
+      <div class="search">
+        <input
+          id="search"
+          type="text"
+          placeholder="Tavuk, makarna, tatlı..."
+        >
+
+        <button onclick="ara()">
+          Ara
+        </button>
+      </div>
+
+    </div>
+
+    <div class="hero-food">
+      🍝
+    </div>
+
+  </div>
+
+</section>
+
+<section class="container" id="tarifler">
+
+  <h2>Popüler Tarifler 🍽️</h2>
+
+  <p class="subtitle">
+    En sevilen yemek tarifleri
+  </p>
+
+  <div class="categories" id="kategoriler">
+
+    <button class="category active"
+      onclick="kategori('Tümü')">
+      Tümü
+    </button>
+
+    <button class="category"
+      onclick="kategori('Ana Yemek')">
+      🍗 Ana Yemek
+    </button>
+
+    <button class="category"
+      onclick="kategori('Kahvaltı')">
+      🍳 Kahvaltı
+    </button>
+
+    <button class="category"
+      onclick="kategori('Tatlı')">
+      🍰 Tatlı
+    </button>
+
+    <button class="category"
+      onclick="kategori('Sağlıklı')">
+      🥗 Sağlıklı
+    </button>
+
+  </div>
+
+  <div class="grid" id="tariflerAlani"></div>
+
+</section>
+
+<footer>
+
+  <div class="logo">
+    <span>🍴</span>
+    LezzetKutusu
+  </div>
+
+  <p style="margin-top:12px">
+    © 2026 LezzetKutusu - Afiyet olsun! ❤️
+  </p>
+
+</footer>
+
+
+<script>
+
+const tarifler = [
+
+  {
+    ad:"Kremalı Mantarlı Makarna",
+    kategori:"Ana Yemek",
+    emoji:"🍝",
+    kalori:520,
+    sure:"25 dk",
+    aciklama:"Kremalı sos ve mantarın nefis buluşması."
+  },
+
+  {
+    ad:"Izgara Tavuk Salatası",
+    kategori:"Sağlıklı",
+    emoji:"🥗",
+    kalori:390,
+    sure:"20 dk",
+    aciklama:"Hafif, sağlıklı ve protein açısından zengin."
+  },
+
+  {
+    ad:"Avokadolu Yumurta",
+    kategori:"Kahvaltı",
+    emoji:"🥑",
+    kalori:340,
+    sure:"10 dk",
+    aciklama:"Güne enerjik başlamak için harika bir kahvaltı."
+  },
+
+  {
+    ad:"Fırında Tavuk",
+    kategori:"Ana Yemek",
+    emoji:"🍗",
+    kalori:460,
+    sure:"45 dk",
+    aciklama:"Sebzelerle hazırlanan nefis fırın yemeği."
+  },
+
+  {
+    ad:"Çilekli Yoğurt",
+    kategori:"Tatlı",
+    emoji:"🍓",
+    kalori:210,
+    sure:"5 dk",
+    aciklama:"Hafif ve serinletici bir tatlı."
+  },
+
+  {
+    ad:"Mercimek Çorbası",
+    kategori:"Sağlıklı",
+    emoji:"🍲",
+    kalori:240,
+    sure:"30 dk",
+    aciklama:"Klasik ve besleyici mercimek çorbası."
+  },
+
+  {
+    ad:"Muzlu Pancake",
+    kategori:"Kahvaltı",
+    emoji:"🥞",
+    kalori:320,
+    sure:"15 dk",
+    aciklama:"Şekersiz ve nefis kahvaltılık pancake."
+  },
+
+  {
+    ad:"Çikolatalı Fit Toplar",
+    kategori:"Tatlı",
+    emoji:"🍫",
+    kalori:180,
+    sure:"15 dk",
+    aciklama:"Tatlı krizleri için pratik bir alternatif."
+  },
+
+  {
+    ad:"Kuru Fasulye",
+    kategori:"Ana Yemek",
+    emoji:"🫘",
+    kalori:430,
+    sure:"60 dk",
+    aciklama:"Türk mutfağının klasik ve doyurucu yemeği."
+  },
+
+  {
+    ad:"Pilav",
+    kategori:"Ana Yemek",
+    emoji:"🍚",
+    kalori:280,
+    sure:"25 dk",
+    aciklama:"Tane tane nefis pirinç pilavı."
+  },
+
+  {
+    ad:"Etli Kuru Fasulye",
+    kategori:"Ana Yemek",
+    emoji:"🥘",
+    kalori:510,
+    sure:"70 dk",
+    aciklama:"Et ve fasulyenin mükemmel uyumu."
+  },
+
+  {
+    ad:"Mantı",
+    kategori:"Ana Yemek",
+    emoji:"🥟",
+    kalori:550,
+    sure:"50 dk",
+    aciklama:"Yoğurt ve sosla servis edilen geleneksel mantı."
+  },
+
+  {
+    ad:"Lahmacun",
+    kategori:"Ana Yemek",
+    emoji:"🫓",
+    kalori:420,
+    sure:"35 dk",
+    aciklama:"İncecik hamur üzerinde nefis kıymalı harç."
+  },
+
+  {
+    ad:"Kıymalı Pide",
+    kategori:"Ana Yemek",
+    emoji:"🥖",
+    kalori:500,
+    sure:"40 dk",
+    aciklama:"Fırından yeni çıkmış sıcacık kıymalı pide."
+  },
+
+  {
+    ad:"İskender Kebap",
+    kategori:"Ana Yemek",
+    emoji:"🥩",
+    kalori:720,
+    sure:"40 dk",
+    aciklama:"Yoğurt, pide ve domates sosuyla servis edilen klasik."
+  },
+
+  {
+    ad:"Adana Kebap",
+    kategori:"Ana Yemek",
+    emoji:"🍢",
+    kalori:620,
+    sure:"35 dk",
+    aciklama:"Baharatlı kıymayla hazırlanan nefis kebap."
+  },
+
+  {
+    ad:"Tavuk Şiş",
+    kategori:"Sağlıklı",
+    emoji:"🍢",
+    kalori:410,
+    sure:"30 dk",
+    aciklama:"Izgarada pişen yumuşacık tavuk şiş."
+  },
+
+  {
+    ad:"Et Sote",
+    kategori:"Ana Yemek",
+    emoji:"🥩",
+    kalori:530,
+    sure:"35 dk",
+    aciklama:"Sebzelerle hazırlanan nefis et sote."
+  },
+
+  {
+    ad:"Karnıyarık",
+    kategori:"Ana Yemek",
+    emoji:"🍆",
+    kalori:390,
+    sure:"50 dk",
+    aciklama:"Kıymalı harçla doldurulmuş nefis patlıcan."
+  },
+
+  {
+    ad:"İmam Bayıldı",
+    kategori:"Sağlıklı",
+    emoji:"🍆",
+    kalori:230,
+    sure:"45 dk",
+    aciklama:"Zeytinyağlı ve hafif geleneksel patlıcan yemeği."
+  },
+
+  {
+    ad:"Zeytinyağlı Yaprak Sarma",
+    kategori:"Sağlıklı",
+    emoji:"🍃",
+    kalori:210,
+    sure:"60 dk",
+    aciklama:"Zeytinyağlı, pirinçli nefis yaprak sarma."
+  },
+
+  {
+    ad:"Bulgur Pilavı",
+    kategori:"Sağlıklı",
+    emoji:"🍚",
+    kalori:250,
+    sure:"25 dk",
+    aciklama:"Besleyici ve doyurucu bulgur pilavı."
+  },
+
+  {
+    ad:"Sebzeli Bulgur",
+    kategori:"Sağlıklı",
+    emoji:"🥕",
+    kalori:230,
+    sure:"25 dk",
+    aciklama:"Bol sebzeli ve hafif bulgur yemeği."
+  },
+
+  {
+    ad:"Sebzeli Omlet",
+    kategori:"Kahvaltı",
+    emoji:"🍳",
+    kalori:290,
+    sure:"12 dk",
+    aciklama:"Sebzelerle zenginleştirilmiş proteinli kahvaltı."
+  },
+
+  {
+    ad:"Menemen",
+    kategori:"Kahvaltı",
+    emoji:"🍳",
+    kalori:300,
+    sure:"15 dk",
+    aciklama:"Domates, biber ve yumurtanın klasik buluşması."
+  },
+
+  {
+    ad:"Sucuklu Yumurta",
+    kategori:"Kahvaltı",
+    emoji:"🍳",
+    kalori:450,
+    sure:"10 dk",
+    aciklama:"Geleneksel Türk kahvaltısının vazgeçilmezi."
+  },
+
+  {
+    ad:"Peynirli Tost",
+    kategori:"Kahvaltı",
+    emoji:"🥪",
+    kalori:330,
+    sure:"8 dk",
+    aciklama:"Çıtır ekmek ve erimiş peynir."
+  },
+
+  {
+    ad:"Serpme Kahvaltı",
+    kategori:"Kahvaltı",
+    emoji:"🧀",
+    kalori:650,
+    sure:"15 dk",
+    aciklama:"Peynir, zeytin, yumurta ve daha fazlası."
+  },
+
+  {
+    ad:"Yulaf Ezmesi",
+    kategori:"Sağlıklı",
+    emoji:"🥣",
+    kalori:280,
+    sure:"8 dk",
+    aciklama:"Meyvelerle hazırlanan sağlıklı kahvaltı."
+  },
+
+  {
+    ad:"Yoğurtlu Granola",
+    kategori:"Sağlıklı",
+    emoji:"🥣",
+    kalori:310,
+    sure:"5 dk",
+    aciklama:"Pratik ve hafif bir kahvaltı alternatifi."
+  },
+
+  {
+    ad:"Sezar Salata",
+    kategori:"Sağlıklı",
+    emoji:"🥗",
+    kalori:380,
+    sure:"15 dk",
+    aciklama:"Çıtır tavuk ve özel sosuyla klasik salata."
+  },
+
+  {
+    ad:"Ton Balıklı Salata",
+    kategori:"Sağlıklı",
+    emoji:"🥗",
+    kalori:300,
+    sure:"10 dk",
+    aciklama:"Protein açısından zengin pratik salata."
+  },
+
+  {
+    ad:"Akdeniz Salatası",
+    kategori:"Sağlıklı",
+    emoji:"🥗",
+    kalori:260,
+    sure:"10 dk",
+    aciklama:"Domates, salatalık, zeytin ve peynirle hazırlanır."
+  },
+
+  {
+    ad:"Ezogelin Çorbası",
+    kategori:"Sağlıklı",
+    emoji:"🍲",
+    kalori:190,
+    sure:"35 dk",
+    aciklama:"Mercimek, bulgur ve baharatlarla hazırlanan çorba."
+  },
+
+  {
+    ad:"Domates Çorbası",
+    kategori:"Sağlıklı",
+    emoji:"🍅",
+    kalori:170,
+    sure:"25 dk",
+    aciklama:"Kremalı veya sade hazırlanabilen klasik çorba."
+  },
+
+  {
+    ad:"Tarhana Çorbası",
+    kategori:"Sağlıklı",
+    emoji:"🍲",
+    kalori:180,
+    sure:"25 dk",
+    aciklama:"Geleneksel Türk mutfağının sevilen çorbası."
+  },
+
+  {
+    ad:"Tavuk Çorbası",
+    kategori:"Sağlıklı",
+    emoji:"🍲",
+    kalori:220,
+    sure:"35 dk",
+    aciklama:"Sıcak ve besleyici tavuk çorbası."
+  },
+
+  {
+    ad:"Fırında Sebze",
+    kategori:"Sağlıklı",
+    emoji:"🥦",
+    kalori:190,
+    sure:"35 dk",
+    aciklama:"Çeşitli sebzelerle hazırlanan hafif yemek."
+  },
+
+  {
+    ad:"Sebzeli Makarna",
+    kategori:"Sağlıklı",
+    emoji:"🍝",
+    kalori:410,
+    sure:"25 dk",
+    aciklama:"Renkli sebzelerle hazırlanan nefis makarna."
+  },
+
+  {
+    ad:"Tavuklu Makarna",
+    kategori:"Ana Yemek",
+    emoji:"🍝",
+    kalori:540,
+    sure:"30 dk",
+    aciklama:"Tavuk ve makarnanın doyurucu buluşması."
+  },
+
+  {
+    ad:"Fırında Patates",
+    kategori:"Sağlıklı",
+    emoji:"🥔",
+    kalori:230,
+    sure:"35 dk",
+    aciklama:"Baharatlarla fırınlanmış çıtır patates."
+  },
+
+  {
+    ad:"Patates Köftesi",
+    kategori:"Ana Yemek",
+    emoji:"🥔",
+    kalori:360,
+    sure:"30 dk",
+    aciklama:"Patates ve baharatlarla hazırlanan nefis köfte."
+  },
+
+  {
+    ad:"Mercimek Köftesi",
+    kategori:"Sağlıklı",
+    emoji:"🧆",
+    kalori:220,
+    sure:"40 dk",
+    aciklama:"Çay saatlerinin vazgeçilmez sağlıklı lezzeti."
+  },
+
+  {
+    ad:"İçli Köfte",
+    kategori:"Ana Yemek",
+    emoji:"🧆",
+    kalori:480,
+    sure:"70 dk",
+    aciklama:"Bulgur dışı ve kıymalı iç harçla hazırlanan klasik."
+  },
+
+  {
+    ad:"Köfte",
+    kategori:"Ana Yemek",
+    emoji:"🍖",
+    kalori:460,
+    sure:"30 dk",
+    aciklama:"Ev yapımı yumuşak ve lezzetli köfte."
+  },
+
+  {
+    ad:"Tavuklu Wrap",
+    kategori:"Sağlıklı",
+    emoji:"🌯",
+    kalori:430,
+    sure:"15 dk",
+    aciklama:"Tavuk, sebze ve sosla hazırlanan pratik wrap."
+  },
+
+  {
+    ad:"Pizza",
+    kategori:"Ana Yemek",
+    emoji:"🍕",
+    kalori:620,
+    sure:"45 dk",
+    aciklama:"Bol malzemeli ev yapımı nefis pizza."
+  },
+
+  {
+    ad:"Cheesecake",
+    kategori:"Tatlı",
+    emoji:"🍰",
+    kalori:420,
+    sure:"60 dk",
+    aciklama:"Kremamsı dokusuyla nefis cheesecake."
+  },
+
+  {
+    ad:"Sütlaç",
+    kategori:"Tatlı",
+    emoji:"🍮",
+    kalori:260,
+    sure:"45 dk",
+    aciklama:"Fırında veya tencerede hazırlanabilen geleneksel tatlı."
+  },
+
+  {
+    ad:"Baklava",
+    kategori:"Tatlı",
+    emoji:"🍯",
+    kalori:420,
+    sure:"90 dk",
+    aciklama:"Çıtır yufka ve Antep fıstığıyla klasik baklava."
+  },
+
+  {
+    ad:"Revani",
+    kategori:"Tatlı",
+    emoji:"🍰",
+    kalori:340,
+    sure:"50 dk",
+    aciklama:"Şerbetli ve yumuşacık geleneksel tatlı."
+  },
+
+  {
+    ad:"Fırın Sütlaç",
+    kategori:"Tatlı",
+    emoji:"🍮",
+    kalori:280,
+    sure:"50 dk",
+    aciklama:"Üzeri kızarmış nefis fırın sütlaç."
+  }
+
+];
+
+
+
+function goster(liste) {
+
+  const alan =
+    document.getElementById("tariflerAlani");
+
+  alan.innerHTML = "";
+
+  liste.forEach(function(tarif) {
+
+    alan.innerHTML += `
+
+      <div class="card">
+
+        <div class="food">
+          ${tarif.emoji}
+        </div>
+
+        <div class="card-content">
+
+          <h3>
+            ${tarif.ad}
+          </h3>
+
+          <p>
+            ${tarif.aciklama}
+          </p>
+
+          <div class="info">
+
+            <span>
+              🔥 ${tarif.kalori} kcal
+            </span>
+
+            <span>
+              ⏱️ ${tarif.sure}
+            </span>
+
+          </div>
+
+          <button
+            class="btn"
+            onclick="alert('${tarif.ad}\\n\\nKalori: ${tarif.kalori} kcal\\nHazırlama: ${tarif.sure}\\n\\nAfiyet olsun! 🍴')">
+
+            Tarifi Gör
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+function kategori(secim) {
+
+  if(secim === "Tümü") {
+
+    goster(tarifler);
+
+  } else {
+
+    const sonuc =
+      tarifler.filter(function(tarif) {
+        return tarif.kategori === secim;
+      });
+
+    goster(sonuc);
+
+  }
+
+}
+
+
+function ara() {
+
+  const kelime =
+    document
+    .getElementById("search")
+    .value
+    .toLowerCase();
+
+  const sonuc =
+    tarifler.filter(function(tarif) {
+
+      return tarif.ad
+        .toLowerCase()
+        .includes(kelime);
+
+    });
+
+  goster(sonuc);
+
+}
+
+
+document
+.getElementById("search")
+.addEventListener("keydown", function(event) {
+
+  if(event.key === "Enter") {
+    ara();
+  }
+
+});
+
+
+goster(tarifler);
+
+</script>
+
+</body>
+</html>
